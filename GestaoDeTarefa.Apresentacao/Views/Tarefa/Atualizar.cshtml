@@ -1,0 +1,51 @@
+﻿@model GestaoDeTarefa.Aplication.Models.TarefasModels
+
+@{
+    ViewData["Title"] = "Atualizar Tarefa";
+}
+
+<h2>Atualizar Tarefa</h2>
+
+@if (Model != null)
+{
+    <form asp-action="Atualizar" method="post">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="form-group">
+            <label asp-for="Nome" class="control-label"></label>
+            <input asp-for="Nome" class="form-control" />
+            <span asp-validation-for="Nome" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Descricao" class="control-label"></label>
+            <input asp-for="Descricao" class="form-control" />
+            <span asp-validation-for="Descricao" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Status" class="control-label"></label>
+            <select asp-for="Status" class="form-control">
+                <option value="Pendente">Pendente</option>
+                <option value="EmAndamento">Em Andamento</option>
+                <option value="Concluido">Concluído</option>
+            </select>
+            <span asp-validation-for="Status" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Salvar" class="btn btn-primary" />
+        </div>
+    </form>
+}
+else
+{
+    <div class="alert alert-warning">Nenhuma tarefa encontrada para atualização.</div>
+}
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Voltar para a Lista</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
