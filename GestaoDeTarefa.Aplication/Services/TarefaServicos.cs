@@ -20,7 +20,7 @@ namespace GestaoDeTarefa.Aplication.Services
             _repository = repository;
         }
 
-        public async void adiconar(TarefasModels tarefas)
+        public async Task adiconar(TarefasModels tarefas)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace GestaoDeTarefa.Aplication.Services
             }
         }
 
-        public async void Atualizar(TarefasModels tarefas)
+        public async Task Atualizar(TarefasModels tarefas)
         {
             if (tarefas == null)
             {
@@ -49,27 +49,19 @@ namespace GestaoDeTarefa.Aplication.Services
 
             var tarefa = await _repository.ObterPorId(tarefas.Id);
 
-            tarefa.SetNome(tarefas.Nome);
-            tarefa.SetDescricao(tarefas.Descricao);
-            tarefa.setStatus(tarefas.Status);
+            tarefa.Atualizar(tarefas.Nome, tarefas.Descricao, tarefas.Status, tarefas.DataConclusao);
 
-            if (tarefa.Status == Status.Concluido)
-            {
-                var dataAtual = DateTime.Now;
-                tarefa.SetDataConclusao(dataAtual, tarefas.Status);
-            }
-
-           _repository.Atualizar(tarefa);
+            await _repository.Atualizar(tarefa);
         }
 
-        public async void Deleta(Guid id)
+        public async Task Deleta(Guid id)
         {
             if (id.Equals(0))
             {
                 throw new ArgumentException("Não pode ser vazio ou null.");
             }
 
-           await _repository.Deletar(id);
+            await _repository.Deletar(id);
         }
 
         public async Task<TarefasModels> ObterPorId(Guid id)

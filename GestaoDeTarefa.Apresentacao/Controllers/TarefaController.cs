@@ -1,5 +1,6 @@
 ﻿using GestaoDeTarefa.Aplication.IServices;
 using GestaoDeTarefa.Aplication.Models;
+using GestaoDeTarefa.Aplication.Services;
 using GestaoDeTarefa.Dominio.Entitidades;
 using GestaoDeTarefa.Dominio.Enum;
 using Microsoft.AspNetCore.Authorization;
@@ -8,7 +9,8 @@ using System.Runtime;
 
 namespace GestaoDeTarefa.Apresentacao.Controllers
 {
-    
+
+
     public class TarefaController : Controller
     {
         private readonly ITarefasServices _tarefasServices;
@@ -21,37 +23,38 @@ namespace GestaoDeTarefa.Apresentacao.Controllers
 
 
         #region view
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromServices] ApiService apiService)
         {
+            var token = HttpContext.Session.GetString("JWToken");
             var tarefas = await _tarefasServices.ObterTodos();
             return View(tarefas);
         }
 
-     
+
         public IActionResult Adicionar()
         {
             return View();
         }
 
 
-        public async Task<IActionResult> Atualizar(Guid id) 
+        public async Task<IActionResult> Atualizar(Guid id)
         {
             var tarefa = await _tarefasServices.ObterPorId(id);
-            
-            if (tarefa == null)  return NotFound(); 
 
-            return View(tarefa); 
+            if (tarefa == null) return NotFound();
+
+            return View(tarefa);
         }
 
         [HttpGet]
         public async Task<IActionResult> BuscarPorStatus(Status? status)
         {
             IEnumerable<TarefasModels> tarefas;
-            if (status.HasValue) 
-            { 
+            if (status.HasValue)
+            {
                 tarefas = await _tarefasServices.ObterPorStatus(status.Value);
             }
-            else 
+            else
             {
                 tarefas = await _tarefasServices.ObterTodos();
             }
@@ -64,9 +67,9 @@ namespace GestaoDeTarefa.Apresentacao.Controllers
         [HttpPost]
         public async Task<ActionResult> Delete(Guid id)
         {
-            _tarefasServices.Deleta(id);
+           await _tarefasServices.Deleta(id);
 
-           return RedirectToAction("Index");
+            return RedirectToAction("Index");
         }
 
 
@@ -79,14 +82,30 @@ namespace GestaoDeTarefa.Apresentacao.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Tarefa>> Atualizar(TarefasModels tarefa)
+        public async Task<ActionResult> AtualizarStatus(Guid Id ,Status status)
+        {
+            var tarefa = await _tarefasServices.ObterPorId(Id);
+            if (tarefa == null)
+                return NotFound();
+
+
+            tarefa.Status = status; 
+            
+           await  _tarefasServices.Atualizar(tarefa);
+            
+            return RedirectToAction("Index");
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> Atualizar(TarefasModels tarefa)
         {
             if (tarefa == null)
             {
                 throw new ArgumentNullException(nameof(tarefa));
             }
 
-            _tarefasServices.Atualizar(tarefa);
+           await _tarefasServices.Atualizar(tarefa);
             return RedirectToAction("Index"); ;
         }
 

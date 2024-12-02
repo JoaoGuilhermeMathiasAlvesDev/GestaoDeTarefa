@@ -12,9 +12,9 @@ namespace GestaoDeTarefa.Aplication.IServices
     {
         Task<IEnumerable<TarefasModels>> ObterTodos();
         Task<TarefasModels> ObterPorId(Guid id);
-        void adiconar(TarefasModels tarefas);
-        void Atualizar(TarefasModels tarefas);
-        void Deleta(Guid id);
+        Task adiconar(TarefasModels tarefas);
+        Task Atualizar(TarefasModels tarefas);
+        Task Deleta(Guid id);
         Task<IEnumerable<TarefasModels>> ObterPorStatus(Status status);
     }
 }

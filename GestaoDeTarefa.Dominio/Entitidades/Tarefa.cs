@@ -16,6 +16,7 @@ namespace GestaoDeTarefa.Dominio.Entitidades
             Status = status;
         }
 
+
         public Tarefa()
         {
             
@@ -27,6 +28,19 @@ namespace GestaoDeTarefa.Dominio.Entitidades
         public DateTime DataCriacao { get;private set; }
         public DateTime? DataConclusao {get;private set;}
 
+
+        public  void Atualizar (string nome, string descricao, Status status, DateTime? dataConclusao)
+        {
+             SetNome(nome);
+            SetDescricao(descricao);
+            setStatus(status);
+
+            if (status == Status.Concluido)
+            {
+                var dataAtual = DateTime.Now;
+                SetDataConclusao(dataAtual, status);
+            }
+        }
 
         public void SetNome(string nome) => Nome = nome;
         public void SetDescricao(string descricao) => Descricao = descricao;

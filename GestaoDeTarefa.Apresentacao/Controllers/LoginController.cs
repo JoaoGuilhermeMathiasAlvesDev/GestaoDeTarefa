@@ -53,7 +53,6 @@ namespace GestaoDeTarefa.Apresentacao.Controllers
 
                 var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
-                // Armazenar o token na sessão
                 HttpContext.Session.SetString("JWToken", tokenString);
 
                 return RedirectToAction("Index", "Tarefa");
