@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Lista de Tarefas";
+    var statusOptions = Enum.GetValues(typeof(GestaoDeTarefa.Dominio.Enum.Status)).Cast<GestaoDeTarefa.Dominio.Enum.Status>().ToList();
 }
 
 <h2>Lista de Tarefas</h2>
@@ -28,6 +29,8 @@
             <th>Nome</th>
             <th>Status</th>
             <th>Data Criação</th>
+            <th>Data conclusão</th>
+            <th> Altera Status</th>
             <th>Ações</th>
         </tr>
     </thead>
@@ -38,6 +41,18 @@
                 <td>@tarefa.Nome</td>
                 <td>@tarefa.Status</td>
                 <td>@tarefa.DataCriacao.ToString("dd/MM/yyyy")</td>
+                <td>@tarefa.DataConclusao</td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownStatus-@tarefa.Id" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> @tarefa.Status </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownStatus-@tarefa.Id">
+                            @foreach (var status in statusOptions)
+                            {
+                                <a class="dropdown-item" href="javascript:void(0);" onclick="updateStatus('@tarefa.Id', '@status')">@status</a>
+                            }
+                        </div>
+                    </div> <form id="statusForm-@tarefa.Id" asp-action="AtualizarStatus" method="post"> <input type="hidden" name="id" value="@tarefa.Id" /> <input type="hidden" name="Status" id="statusInput-@tarefa.Id" /> </form>
+                </td>
                 <td>
                     <a href="@Url.Action("Atualizar", new { id = tarefa.Id })" class="btn btn-primary">Editar</a> |
                     <button type="button" class="btn btn-danger" onclick="confirmDelete('@tarefa.Id', '@tarefa.Nome')">Excluir</button>
@@ -79,6 +94,11 @@
             $('#taskName').text(taskName);
             $('#taskId').val(taskId);
             $('#deleteModal').modal('show');
+        }
+
+        function updateStatus(tarefaId, status) {
+            $('#statusInput-' + tarefaId).val(status);
+            $('#statusForm-' + tarefaId).submit();
         }
     </script>
 }

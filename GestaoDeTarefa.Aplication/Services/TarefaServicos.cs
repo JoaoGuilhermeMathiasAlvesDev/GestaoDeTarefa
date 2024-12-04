@@ -29,7 +29,8 @@ namespace GestaoDeTarefa.Aplication.Services
                     throw new ArgumentNullException("Propiedade não pode ser null");
                 }
 
-                Tarefa tarefa = new Tarefa(tarefas.Nome, tarefas.Descricao, tarefas.Status);
+                Tarefa tarefa = new Tarefa();
+                tarefa.Adicionar(tarefas.Nome, tarefas.Descricao, tarefas.Status);
                 await _repository.adicionarTarefa(tarefa);
 
             }
@@ -49,9 +50,16 @@ namespace GestaoDeTarefa.Aplication.Services
 
             var tarefa = await _repository.ObterPorId(tarefas.Id);
 
-            tarefa.Atualizar(tarefas.Nome, tarefas.Descricao, tarefas.Status, tarefas.DataConclusao);
+            tarefa.SetNome(tarefas.Nome);
+            tarefa.setStatus(tarefas.Status);
+            tarefa.SetDescricao(tarefas.Descricao);
 
-            await _repository.Atualizar(tarefa);
+            if(tarefas.Status == Status.Concluido)
+            {
+                tarefa.SetDataConclusao(tarefas.Status);
+            }
+
+             _repository.Atualizar(tarefa);
         }
 
         public async Task Deleta(Guid id)

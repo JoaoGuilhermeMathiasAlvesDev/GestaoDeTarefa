@@ -26,10 +26,10 @@ namespace GestaoDeTarefa.Data.Reposiorios
             await _tafaContexto.SaveChangesAsync();
         }
 
-        public async Task Atualizar(Tarefa tarefa)
+        public void Atualizar(Tarefa tarefa)
         {
             _tafaContexto.tarefas.Update(tarefa);
-           await _tafaContexto.SaveChangesAsync();
+            _tafaContexto.SaveChanges();
         }
 
         public async Task Deletar(Guid id)

@@ -9,18 +9,6 @@ namespace GestaoDeTarefa.Dominio.Entitidades
 {
     public class Tarefa : EntityBase.EntityBase
     {
-        public Tarefa(string nome, string descricao, Status status)
-        {
-            Nome = nome;
-            Descricao = descricao;
-            Status = status;
-        }
-
-
-        public Tarefa()
-        {
-            
-        }
 
         public string Nome { get;private set; }
         public string Descricao { get;private set; }
@@ -29,17 +17,11 @@ namespace GestaoDeTarefa.Dominio.Entitidades
         public DateTime? DataConclusao {get;private set;}
 
 
-        public  void Atualizar (string nome, string descricao, Status status, DateTime? dataConclusao)
+        public void Adicionar(string nome, string descricao, Status status)
         {
-             SetNome(nome);
-            SetDescricao(descricao);
-            setStatus(status);
-
-            if (status == Status.Concluido)
-            {
-                var dataAtual = DateTime.Now;
-                SetDataConclusao(dataAtual, status);
-            }
+            Nome = nome;
+            Descricao = descricao;
+            Status = status;
         }
 
         public void SetNome(string nome) => Nome = nome;
@@ -47,12 +29,18 @@ namespace GestaoDeTarefa.Dominio.Entitidades
         
         public void setStatus(Status status) => Status = status;
 
-        public void SetDataConclusao(DateTime? dataConclusao, Status status)
+        public void SetDataConclusao(Status status)
         {
-            if (status == Status.Concluido) { DataConclusao = DateTime.Now; Status = status; }
+            if (status == Status.Concluido) 
+            {
+                DataConclusao = DateTime.Now;
+                Status = status;
+                    
+            }
             else
             {
-                DataConclusao = null; Status = status;
+                DataConclusao = null;
+                Status = status;
 
             }
         }

@@ -14,7 +14,7 @@ namespace GestaoDeTarefa.Dominio.Interfaces
 
         Task adicionarTarefa(Tarefa tarefa);
 
-        Task Atualizar(Tarefa tarefa);
+        void Atualizar(Tarefa tarefa);
 
         Task Deletar (Guid id);
 

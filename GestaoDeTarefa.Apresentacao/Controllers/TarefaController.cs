@@ -67,7 +67,7 @@ namespace GestaoDeTarefa.Apresentacao.Controllers
         [HttpPost]
         public async Task<ActionResult> Delete(Guid id)
         {
-           await _tarefasServices.Deleta(id);
+            await _tarefasServices.Deleta(id);
 
             return RedirectToAction("Index");
         }
@@ -82,17 +82,17 @@ namespace GestaoDeTarefa.Apresentacao.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AtualizarStatus(Guid Id ,Status status)
+        public async Task<ActionResult> AtualizarStatus(Guid Id, Status status)
         {
             var tarefa = await _tarefasServices.ObterPorId(Id);
             if (tarefa == null)
                 return NotFound();
 
 
-            tarefa.Status = status; 
-            
-           await  _tarefasServices.Atualizar(tarefa);
-            
+            tarefa.Status = status;
+
+            await _tarefasServices.Atualizar(tarefa);
+
             return RedirectToAction("Index");
         }
 
@@ -105,7 +105,7 @@ namespace GestaoDeTarefa.Apresentacao.Controllers
                 throw new ArgumentNullException(nameof(tarefa));
             }
 
-           await _tarefasServices.Atualizar(tarefa);
+            await _tarefasServices.Atualizar(tarefa);
             return RedirectToAction("Index"); ;
         }
 
