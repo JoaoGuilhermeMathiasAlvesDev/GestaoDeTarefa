@@ -19,11 +19,10 @@ namespace GestaoDeTarefa.Data.Reposiorios
             _tafaContexto = tafaContexto;
         }
 
-        public async Task adicionarTarefa(Tarefa tarefa)
+        public void adicionarTarefa(Tarefa tarefa)
         {
-            await _tafaContexto.tarefas.AddAsync(tarefa);
-
-            await _tafaContexto.SaveChangesAsync();
+            _tafaContexto.tarefas.Add(tarefa);
+            _tafaContexto.SaveChanges();
         }
 
         public void Atualizar(Tarefa tarefa)
@@ -38,7 +37,7 @@ namespace GestaoDeTarefa.Data.Reposiorios
             if (tarefa != null)
             {
                 _tafaContexto.tarefas.Remove(tarefa);
-               await _tafaContexto.SaveChangesAsync();
+                await _tafaContexto.SaveChangesAsync();
             }
         }
 

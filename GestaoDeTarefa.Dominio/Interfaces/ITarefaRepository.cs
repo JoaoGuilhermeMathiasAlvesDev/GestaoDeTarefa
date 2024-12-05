@@ -12,7 +12,7 @@ namespace GestaoDeTarefa.Dominio.Interfaces
         Task<List<Tarefa>> ObterTodos();
         Task<Tarefa> ObterPorId(Guid id);
 
-        Task adicionarTarefa(Tarefa tarefa);
+        void adicionarTarefa(Tarefa tarefa);
 
         void Atualizar(Tarefa tarefa);
 

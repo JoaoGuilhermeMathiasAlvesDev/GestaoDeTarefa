@@ -31,7 +31,7 @@ namespace GestaoDeTarefa.Aplication.Services
 
                 Tarefa tarefa = new Tarefa();
                 tarefa.Adicionar(tarefas.Nome, tarefas.Descricao, tarefas.Status);
-                await _repository.adicionarTarefa(tarefa);
+                _repository.adicionarTarefa(tarefa);
 
             }
             catch (Exception e)

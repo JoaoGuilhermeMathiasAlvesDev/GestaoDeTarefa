@@ -117,7 +117,7 @@ namespace GestaoDeTarefa.Apresentacao.Controllers
                 throw new ArgumentNullException(nameof(tarefas));
             }
 
-            _tarefasServices.adiconar(tarefas);
+           await _tarefasServices.adiconar(tarefas);
             return RedirectToAction("Index");
         }
 
